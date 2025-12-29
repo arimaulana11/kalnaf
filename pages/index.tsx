@@ -1,17 +1,71 @@
-import { useState } from "react";
-import { categories, defaultConfig, products } from "../lib/data";
+import { useEffect, useState } from "react";
+import { categories, defaultConfig } from "../lib/data";
 
+// Format harga
 function formatPrice(price: number) {
   return new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",
-    minimumFractionDigits: 0
+    minimumFractionDigits: 0,
   }).format(price);
 }
 
+// IndexedDB helper
+async function openDB() {
+  return new Promise<IDBDatabase>((resolve, reject) => {
+    const request = indexedDB.open("SembakoDB", 1);
+
+    request.onupgradeneeded = () => {
+      const db = request.result;
+      if (!db.objectStoreNames.contains("products")) {
+        db.createObjectStore("products", { keyPath: "id" });
+      }
+    };
+
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+}
+
+async function saveProductsToDB(products: any[]) {
+  const db = await openDB();
+  const tx = db.transaction("products", "readwrite");
+  const store = tx.objectStore("products");
+  products.forEach((p) => store.put(p));
+  await new Promise((res) => (tx.oncomplete = res));
+}
+
+async function getProductsFromDB(): Promise<any[]> {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction("products", "readonly");
+    const store = tx.objectStore("products");
+    const req = store.getAll();
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+
 export default function Home() {
+  const [products, setProducts] = useState<any[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("Semua");
   const [searchQuery, setSearchQuery] = useState("");
+
+  // Load data dari IndexedDB atau JSON
+  useEffect(() => {
+    async function initData() {
+      let dbProducts = await getProductsFromDB();
+      if (dbProducts.length === 0) {
+        // fetch JSON
+        const res = await fetch("/products.json");
+        const json = await res.json();
+        await saveProductsToDB(json);
+        dbProducts = json;
+      }
+      setProducts(dbProducts);
+    }
+    initData();
+  }, []);
 
   const filteredProducts = products.filter((p) => {
     const matchesCategory = selectedCategory === "Semua" || p.category === selectedCategory;
@@ -33,23 +87,9 @@ export default function Home() {
   } = defaultConfig;
 
   return (
-    <div
-      style={{
-        backgroundColor: background_color,
-        color: text_color,
-        fontFamily: font_family,
-        minHeight: "100vh"
-      }}
-    >
+    <div style={{ backgroundColor: background_color, color: text_color, fontFamily: font_family, minHeight: "100vh" }}>
       {/* Header */}
-      <div style={{
-        background: primary_color,
-        padding: "24px 20px",
-        position: "sticky",
-        top: 0,
-        zIndex: 10,
-        boxShadow: "0 2px 8px rgba(0,0,0,0.1)"
-      }}>
+      <div style={{ background: primary_color, padding: "24px 20px", position: "sticky", top: 0, zIndex: 10, boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
         <div style={{ maxWidth: 480, margin: "0 auto" }}>
           <h1 style={{ color: "white", fontSize: font_size * 1.75, fontWeight: 700, margin: 0 }}>{store_name}</h1>
           <p style={{ color: "rgba(255,255,255,0.9)", fontSize: font_size * 0.875, margin: 0 }}>{store_tagline}</p>
@@ -58,55 +98,29 @@ export default function Home() {
 
       {/* Search */}
       <div style={{ maxWidth: 480, margin: "16px auto", padding: "0 20px" }}>
-        <div style={{
-          background: card_color,
-          borderRadius: 12,
-          padding: "12px 16px",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-          display: "flex",
-          alignItems: "center",
-          gap: 12
-        }}>
+        <div style={{ background: card_color, borderRadius: 12, padding: "12px 16px", boxShadow: "0 2px 8px rgba(0,0,0,0.08)", display: "flex", alignItems: "center", gap: 12 }}>
           <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke={text_color} strokeWidth={2}>
             <circle cx={11} cy={11} r={8}></circle>
             <path d="m21 21-4.35-4.35"></path>
           </svg>
-          <input
-            type="text"
-            placeholder={search_placeholder}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            style={{
-              border: "none",
-              background: "transparent",
-              fontSize: font_size,
-              color: text_color,
-              flex: 1
-            }}
-          />
+          <input type="text" placeholder={search_placeholder} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} style={{ border: "none", background: "transparent", fontSize: font_size, color: text_color, flex: 1 }} />
         </div>
       </div>
 
       {/* Category */}
       <div style={{ maxWidth: 480, margin: "0 auto", padding: "0 20px 16px", display: "flex", gap: 8, overflowX: "auto" }}>
         {categories.map(cat => (
-          <button
-            key={cat}
-            onClick={() => setSelectedCategory(cat)}
-            style={{
-              background: selectedCategory === cat ? primary_color : card_color,
-              color: selectedCategory === cat ? "white" : text_color,
-              padding: "8px 16px",
-              borderRadius: 20,
-              border: selectedCategory === cat ? "none" : `2px solid ${primary_color}`,
-              fontSize: font_size * 0.875,
-              fontWeight: 600,
-              cursor: "pointer",
-              whiteSpace: "nowrap"
-            }}
-          >
-            {cat}
-          </button>
+          <button key={cat} onClick={() => setSelectedCategory(cat)} style={{
+            background: selectedCategory === cat ? primary_color : card_color,
+            color: selectedCategory === cat ? "white" : text_color,
+            padding: "8px 16px",
+            borderRadius: 20,
+            border: selectedCategory === cat ? "none" : `2px solid ${primary_color}`,
+            fontSize: font_size * 0.875,
+            fontWeight: 600,
+            cursor: "pointer",
+            whiteSpace: "nowrap"
+          }}>{cat}</button>
         ))}
       </div>
 
