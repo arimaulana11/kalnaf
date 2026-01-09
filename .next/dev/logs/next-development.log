@@ -1,0 +1,26 @@
+[00:00:02.696] Server  LOG     > [PWA] Compile server
+[00:00:02.697] Server  LOG     > [PWA] Compile server
+[00:00:02.697] Server  LOG     > [PWA] Compile client (static)
+[00:00:02.698] Server  LOG     > [PWA] Auto register service worker with: D:\kuliah\project\kalnaf proj\kalnaf\node_modules\next-pwa\register.js
+[00:00:02.698] Server  LOG     > [PWA] Service worker: D:\kuliah\project\kalnaf proj\kalnaf\public\sw.js
+[00:00:02.698] Server  LOG     > [PWA]   url: /sw.js
+[00:00:02.699] Server  LOG     > [PWA]   scope: /
+[00:00:02.708] Server  LOG     > [PWA] Build in develop mode, cache and precache are mostly disabled. This means offline support is disabled, but you can continue developing other functions in service worker.
+[00:00:04.479] Server  LOG     ✓ Ready in 4s
+[00:00:04.991] Server  WARN    ⚠ GenerateSW has been called multiple times, perhaps due to running webpack in --watch mode. The precache manifest generated after the first call may be inaccurate! Please see https://github.com/GoogleChrome/workbox/issues/1790 for more information.
+[00:00:35.078] Server  WARN    ⚠ GenerateSW has been called multiple times, perhaps due to running webpack in --watch mode. The precache manifest generated after the first call may be inaccurate! Please see https://github.com/GoogleChrome/workbox/issues/1790 for more information.
+[00:00:38.090] Server  LOG     ○ Compiling / ...
+[00:00:38.836] Server  WARN    ⚠ GenerateSW has been called multiple times, perhaps due to running webpack in --watch mode. The precache manifest generated after the first call may be inaccurate! Please see https://github.com/GoogleChrome/workbox/issues/1790 for more information.
+[00:00:38.983] Server  ERROR   Style property values shouldn't contain a semicolon. Try "background: rgb(16 154 185)" instead.
+[00:00:39.598] Browser WARN    GenerateSW has been called multiple times, perhaps due to running webpack in --watch mode. The precache manifest generated after the first call may be inaccurate! Please see https://github.com/GoogleChrome/workbox/issues/1790 for more information.
+[00:00:54.316] Browser WARN    GenerateSW has been called multiple times, perhaps due to running webpack in --watch mode. The precache manifest generated after the first call may be inaccurate! Please see https://github.com/GoogleChrome/workbox/issues/1790 for more information.
+[00:04:08.494] Browser WARN    GenerateSW has been called multiple times, perhaps due to running webpack in --watch mode. The precache manifest generated after the first call may be inaccurate! Please see https://github.com/GoogleChrome/workbox/issues/1790 for more information.
+[00:04:41.716] Server  WARN    ⚠ GenerateSW has been called multiple times, perhaps due to running webpack in --watch mode. The precache manifest generated after the first call may be inaccurate! Please see https://github.com/GoogleChrome/workbox/issues/1790 for more information.
+[00:04:41.775] Browser WARN    GenerateSW has been called multiple times, perhaps due to running webpack in --watch mode. The precache manifest generated after the first call may be inaccurate! Please see https://github.com/GoogleChrome/workbox/issues/1790 for more information.
+[00:04:50.387] Server  WARN    ⚠ GenerateSW has been called multiple times, perhaps due to running webpack in --watch mode. The precache manifest generated after the first call may be inaccurate! Please see https://github.com/GoogleChrome/workbox/issues/1790 for more information.
+[00:04:50.438] Browser WARN    GenerateSW has been called multiple times, perhaps due to running webpack in --watch mode. The precache manifest generated after the first call may be inaccurate! Please see https://github.com/GoogleChrome/workbox/issues/1790 for more information.
+[00:04:54.108] Browser WARN    GenerateSW has been called multiple times, perhaps due to running webpack in --watch mode. The precache manifest generated after the first call may be inaccurate! Please see https://github.com/GoogleChrome/workbox/issues/1790 for more information.
+[00:08:53.543] Browser WARN    GenerateSW has been called multiple times, perhaps due to running webpack in --watch mode. The precache manifest generated after the first call may be inaccurate! Please see https://github.com/GoogleChrome/workbox/issues/1790 for more information.
+[00:08:53.641] Server  WARN    ⚠ GenerateSW has been called multiple times, perhaps due to running webpack in --watch mode. The precache manifest generated after the first call may be inaccurate! Please see https://github.com/GoogleChrome/workbox/issues/1790 for more information.
+[00:08:54.510] Browser WARN    GenerateSW has been called multiple times, perhaps due to running webpack in --watch mode. The precache manifest generated after the first call may be inaccurate! Please see https://github.com/GoogleChrome/workbox/issues/1790 for more information.
+[00:08:58.943] Browser WARN    GenerateSW has been called multiple times, perhaps due to running webpack in --watch mode. The precache manifest generated after the first call may be inaccurate! Please see https://github.com/GoogleChrome/workbox/issues/1790 for more information.
